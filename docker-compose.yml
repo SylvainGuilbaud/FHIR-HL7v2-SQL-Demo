@@ -11,6 +11,7 @@ services:
     - "1972" # 1972 is the new superserver default port
     - "52776:52773" # 52773 is the webserver/management portal port
     volumes:
+    - ./keys:/keys
     - type: bind
       source: ./misc
       target: /home/irisowner/irislicense
@@ -23,6 +24,8 @@ services:
     - type: bind
       source: ./out
       target: /home/irisowner/out
+    command: 
+      --key /keys/iris.key
 
   fhirhl7v2ui:
     build: ./fhirhl7ui

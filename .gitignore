@@ -3,3 +3,4 @@ misc/iris.key
 **/.DS_Store
 node_modules
 .vscode
+keys/*
