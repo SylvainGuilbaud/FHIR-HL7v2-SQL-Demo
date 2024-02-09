@@ -3,11 +3,15 @@
         "ns": "FHIRHL7V2DEMO",
         "username": "SuperUser",
         "password": "password",
-        "host": "localhost",
-        "port": 52776,
         "active": true,
         "links": {
-            "FHIR-HL7v2": "http://localhost:4201/"
+            "FHIR-HL7v2": "http://localhost:4201/",
+            "FHIR SQL Builder": "http://localhost:${port}/csp/fhirsql/index.html",
+            "SQL": "http://localhost:52776/csp/sys/exp/%25CSP.UI.Portal.SQL.Home.zen?$NAMESPACE=FHIRHL7V2DEMO&$NAMESPACE=FHIRHL7V2DEMO"
+        },
+        "docker-compose": {
+            "internalPort": 52773,
+            "service": "fhirhl7v2demo"
         }
     }
 }
