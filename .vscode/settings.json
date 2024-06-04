@@ -35,6 +35,19 @@
             "name": "FHIRSERVER",
             "username": "_SYSTEM",
             "password": "SYS"
+        },
+        {
+            "namespace": "FHIRSERVER",
+            "connectionMethod": "Server and Port",
+            "showSystem": false,
+            "previewLimit": 50,
+            "server": "localhost",
+            "port": 52776,
+            "https": false,
+            "askForPassword": true,
+            "driver": "InterSystems IRIS",
+            "name": "IPC",
+            "username": "_SYSTEM"
         }
     ]
 }
