@@ -7,7 +7,7 @@ Parameter CHARSET = "utf-8";
 
 Parameter HandleCorsRequest = 1;
 
-XData UrlMap [ XMLNamespace = "http://www.fhirhl7v2demo.com/urlmap" ]
+XData UrlMap [ XMLNamespace = "http://www.fhirserver.com/urlmap" ]
 {
 <Routes>
   <Route Url="/sendfile" Method="POST" Call="SendFileContent" Cors="true"/>

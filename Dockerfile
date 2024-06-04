@@ -1,17 +1,20 @@
-ARG IMAGE=intersystemsdc/irishealth-community:latest
-FROM $IMAGE
-LABEL maintainer="Guillaume Rongier <guillaume.rongier@intersystems.com>"
+ARG IMAGE=intersystemsdc/irishealth-ml-community:latest
+FROM $IMAGE as builder
 
-RUN echo "password" > /tmp/password.txt && /usr/irissys/dev/Container/changePassword.sh /tmp/password.txt
+COPY .iris_init /home/irisowner/.iris_init
 
-# COPY keys/iris.key /usr/irissys/mgr/iris.key
+WORKDIR /home/irisowner/dev
 
-COPY . /tmp/src
+RUN --mount=type=bind,src=.,dst=. \
+    iris start IRIS && \
+    iris merge IRIS merge.cpf && \
+	iris session IRIS < iris.script && \
+    iris stop IRIS quietly 
 
-WORKDIR /tmp/src
+FROM $IMAGE as final
+ADD --chown=${ISC_PACKAGE_MGRUSER}:${ISC_PACKAGE_IRISGROUP} https://github.com/grongierisc/iris-docker-multi-stage-script/releases/latest/download/copy-data.py /home/irisowner/dev/copy-data.py
+#ADD https://github.com/grongierisc/iris-docker-multi-stage-script/releases/latest/download/copy-data.py /home/irisowner/dev/copy-data.py
 
-RUN iris start $ISC_PACKAGE_INSTANCENAME EmergencyId=sys,sys && \
- sh install.sh $ISC_PACKAGE_INSTANCENAME && \
- /bin/echo -e "sys\nsys\n" | iris stop $ISC_PACKAGE_INSTANCENAME quietly 
-
-WORKDIR /home/irisowner/
+RUN --mount=type=bind,source=/,target=/builder/root,from=builder \
+    cp -f /builder/root/usr/irissys/iris.cpf /usr/irissys/iris.cpf && \
+    python3 /home/irisowner/dev/copy-data.py -c /usr/irissys/iris.cpf -d /builder/root/

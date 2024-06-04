@@ -16,7 +16,7 @@
     sys
     sys
     zn "HSLIB"
-    Set appKey = "/fhirhl7v2demo/fhir/r4"
+    Set appKey = "/fhir/r4"
     Set strategyClass = "HS.FHIRServer.Storage.Json.InteractionsStrategy"
     Set metadataConfigKey = "HL7v40"
 
